@@ -64,7 +64,7 @@ namespace DatingApp.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var Appuser = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var Appuser = await _context.Users.SingleAsync(x => x.UserName == loginDto.Username);
 
             if (Appuser == null) return Unauthorized("User name doesn't exist");
 
