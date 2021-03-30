@@ -64,7 +64,9 @@ namespace DatingApp.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var Appuser = await _context.Users.SingleAsync(x => x.UserName == loginDto.Username);
+            var Appuser = await _context.Users
+                .Include(p=> p.Photos)
+                .SingleAsync(x => x.UserName == loginDto.Username);
 
             if (Appuser == null) return Unauthorized("User name doesn't exist");
 
@@ -80,7 +82,8 @@ namespace DatingApp.Controllers
             return new UserDto
             {
                 Username = Appuser.UserName,
-                Token = _tokenService.CreateToken(Appuser)
+                Token = _tokenService.CreateToken(Appuser),
+                PhotoUrl = Appuser.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
 
         }
