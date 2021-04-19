@@ -32,7 +32,7 @@ namespace DatingApp.Controllers
 
         //localhost:49716/api/Users
         
-        [Authorize(Roles ="Admin")]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {

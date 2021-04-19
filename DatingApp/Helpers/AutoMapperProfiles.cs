@@ -26,6 +26,8 @@ namespace DatingApp.Helpers
                  src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.RecepientPhotoUrl, opt => opt.MapFrom(src =>
                  src.Recepient.Photos.FirstOrDefault(x => x.IsMain).Url));
+
+          //  CreateMap<DateTime, DateTime>().ConstructUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
         }
         
     }

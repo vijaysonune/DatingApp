@@ -23,7 +23,7 @@ namespace DatingApp.Entities
 
         public string Content { get; set; }
 
-        public DateTime MessageSent { get; set; } = DateTime.Now;
+        public DateTime MessageSent { get; set; } = DateTime.UtcNow;
 
         public DateTime? DateRead { get; set; }
 
