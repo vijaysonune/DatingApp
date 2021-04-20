@@ -30,6 +30,6 @@ namespace DatingApp.Interfaces
 
         Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recepientUsername);
 
-        Task<bool> SaveAllAsync();
+       
     }
 }

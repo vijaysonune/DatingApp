@@ -63,19 +63,21 @@ namespace DatingApp.Data
         {
             var query = _context.Messages
                 .OrderByDescending(m => m.MessageSent)
+                .ProjectTo<MessageDto>(mapper.ConfigurationProvider)
                 .AsQueryable();
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.Recepient.UserName == messageParams.Username && u.RecepientDeleted==false),
-                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username && u.SenderDeleted== false),
-                _ => query.Where(u => u.Recepient.UserName == messageParams.Username
+                "Inbox" => query.Where(u => u.RecepientUsername == messageParams.Username && u.RecepientDeleted==false),
+
+                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username && u.SenderDeleted== false),
+
+                _ => query.Where(u => u.RecepientUsername == messageParams.Username
                 && u.RecepientDeleted==false  && u.DateRead==null)
             };
+                    
 
-            var message = query.ProjectTo<MessageDto>(mapper.ConfigurationProvider);
-
-            return await PagedList<MessageDto>.CreateAsync(message, messageParams.PageNumber, messageParams.PageSize);
+            return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
 
         }
 
@@ -88,32 +90,27 @@ namespace DatingApp.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recepientUsername)
         {
-            var messages = _context.Messages
-                .Include(u => u.Sender).ThenInclude(p => p.Photos)
-                .Include(u => u.Recepient).ThenInclude(p => p.Photos)
-                .Where(m => m.Sender.UserName == currentUsername && m.RecepientDeleted==false
-                && m.Recepient.UserName == recepientUsername 
-                || m.Recepient.UserName == currentUsername && m.SenderDeleted==false &&
-                m.Sender.UserName == recepientUsername
-                )
+            var messages = await _context.Messages               
+                .Where(m => m.Sender.UserName == currentUsername && m.RecepientDeleted == false
+                && m.Recepient.UserName == recepientUsername
+                || m.Recepient.UserName == currentUsername && m.SenderDeleted == false &&
+                m.Sender.UserName == recepientUsername)
                 .OrderBy(m => m.MessageSent)
-                .ToList();
+                .ProjectTo<MessageDto>(mapper.ConfigurationProvider)
+                .ToListAsync();
 
             var unreadMessages = _context.Messages.Where(m => m.DateRead == null &&
-            m.Recepient.UserName == currentUsername).ToList();
+            m.RecepientUsername == currentUsername).ToList();
 
             if(unreadMessages.Any())
             {
                 foreach (var message in unreadMessages)
                 {
                     message.DateRead = DateTime.UtcNow;
-                }
-
-                await _context.SaveChangesAsync();
+                }                
             }
 
-            return mapper.Map<IEnumerable<MessageDto>>(messages);
-
+            return messages;
 
         }
 
@@ -121,10 +118,6 @@ namespace DatingApp.Data
         {
             _context.Connections.Remove(connection);
         }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
+       
     }
 }

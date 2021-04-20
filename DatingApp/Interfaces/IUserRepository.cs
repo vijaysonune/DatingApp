@@ -11,8 +11,7 @@ namespace DatingApp.Interfaces
     public interface IUserRepository
     {
         void Update(AppUser user);
-
-        Task<bool> SaveAllAsync();
+        
 
         Task<IEnumerable<AppUser>> GetUsersAsync();
 
@@ -23,5 +22,7 @@ namespace DatingApp.Interfaces
         Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
 
         Task<MemberDto> GetMemberAsync(string username);
+
+        Task<string> GetUserGenderAsync(string username);
     }
 }

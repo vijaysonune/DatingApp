@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DatingApp.DTOs
@@ -27,6 +28,12 @@ namespace DatingApp.DTOs
 
         public DateTime? DateRead { get; set; }
 
-   
+        [JsonIgnore]
+        public bool SenderDeleted { get; set; }
+
+        [JsonIgnore]
+        public bool RecepientDeleted { get; set; }
+
+
     }
 }
