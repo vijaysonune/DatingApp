@@ -15,7 +15,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/women/54.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -34,7 +35,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/women/50.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -53,7 +55,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/women/14.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -72,7 +75,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/women/11.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -91,7 +95,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/women/84.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -110,7 +115,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/men/90.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -129,7 +135,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/men/87.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -148,7 +155,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/men/57.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -167,7 +175,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/men/11.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     },
@@ -186,7 +195,8 @@
       "Photos": [
         {
           "Url": "https://randomuser.me/api/portraits/men/93.jpg",
-          "IsMain": true
+          "IsMain": true,
+          "IsApproved": true
         }
       ]
     }

@@ -10,12 +10,13 @@ namespace DatingApp.Data
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext dataContext;
-        private readonly IMapper mapper;
+        private readonly IMapper mapper;       
 
         public UnitOfWork(DataContext dataContext, IMapper mapper )
         {
             this.dataContext = dataContext;
             this.mapper = mapper;
+            
         }
 
         public IUserRepository userRepository => new UserRepository(dataContext, mapper);
@@ -23,6 +24,8 @@ namespace DatingApp.Data
         public IMessageRepository messageRepository => new MessageRepository(dataContext, mapper);
 
         public ILikeRepository likeRepository => new LikeRepository(dataContext);
+
+        public IPhotoRepository photoRepository => new PhotoRepository(dataContext, mapper);
 
         public async Task<bool> Complete()
         {

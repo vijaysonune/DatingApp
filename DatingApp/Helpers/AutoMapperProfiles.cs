@@ -26,7 +26,12 @@ namespace DatingApp.Helpers
                  src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.RecepientPhotoUrl, opt => opt.MapFrom(src =>
                  src.Recepient.Photos.FirstOrDefault(x => x.IsMain).Url));
-         
+
+            //CreateMap<AppUser, PhotoForApprovalDto>()
+            //         .ForMember(dest => dest.Url, opt => opt.MapFrom(src =>
+            //     src.Photos.FirstOrDefault(x => x.IsMain== false).Url));
+
+
         }
         
     }

@@ -13,6 +13,8 @@ namespace DatingApp.Interfaces
 
         ILikeRepository likeRepository { get; }
 
+        IPhotoRepository photoRepository { get; }
+
         Task<bool> Complete();
 
         bool HasChanges();

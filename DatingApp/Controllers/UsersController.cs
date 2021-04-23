@@ -49,6 +49,7 @@ namespace DatingApp.Controllers
 
             var users = await unitOfWork.userRepository.GetMembersAsync(userParams);
 
+                      
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             
             return Ok(users);
@@ -61,7 +62,11 @@ namespace DatingApp.Controllers
         [HttpGet("{username}" ,Name = "GetUser") ]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return await unitOfWork.userRepository.GetMemberAsync(username);           
+            
+            var userName = User.GetUserName();
+           
+            return await unitOfWork.userRepository.GetMemberAsync(username,
+                isCurrentUser : userName == username);           
            
         }
 
@@ -91,15 +96,18 @@ namespace DatingApp.Controllers
             var photo = new Photo
             {
                 Url = result.Url.AbsoluteUri,
-                PublicId = result.PublicId
+                PublicId = result.PublicId,
+                IsApproved= false,
+                IsMain = false
             };
 
-            if(user.Photos.Count==0)
-            {
-                photo.IsMain = true;
-            }
+            //if(user.Photos.Count==0)
+            //{
+              //  photo.IsMain = true;
+            //}
 
             user.Photos.Add(photo);
+
             if (await unitOfWork.Complete())
             {
                 // return _mapper.Map<PhotoDto>(photo);

@@ -28,6 +28,8 @@ namespace DatingApp.Data
 
         public DbSet<Connection> Connections { get; set; }
 
+        public DbSet<Photo> Photos { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -67,6 +69,9 @@ namespace DatingApp.Data
                 .HasOne(m => m.Recepient)
                 .WithMany(r => r.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Photo>()
+                .HasQueryFilter(p => p.IsApproved);
 
             builder.ApplyUtcDateTimeConverter();
         }

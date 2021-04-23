@@ -24,20 +24,29 @@ namespace DatingApp.Data
             _mapper = mapper;
         }
 
-        public async Task<MemberDto> GetMemberAsync(string username)
+        public async Task<MemberDto> GetMemberAsync(string username, bool isCurrentUser)
         {
-            return await _context.Users
+            var query=  _context.Users
                           .Where(x => x.UserName == username)
                           .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                          .SingleOrDefaultAsync();
+                          .AsQueryable();
+
+           
+
+            if (isCurrentUser) query = query.IgnoreQueryFilters();
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
+            //var UnauthorizedPhotos = _context.Photos.Where(x => x.IsApproved == false).ToList();
+
             var query = _context.Users.AsQueryable();
                            
             query = query.Where(u => u.UserName != userParams.CurrentUsername);
             query = query.Where(u => u.Gender == userParams.Gender);
+      
 
             var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
             var maxDob= DateTime.Today.AddYears(-userParams.MinAge );
@@ -65,6 +74,7 @@ namespace DatingApp.Data
         {
             return await _context.Users
                 .Include(p => p.Photos)
+                .IgnoreQueryFilters()
                 .SingleOrDefaultAsync(x => x.UserName == username);
         }
 
@@ -72,6 +82,15 @@ namespace DatingApp.Data
         {
             return await _context.Users.Where(x => x.UserName == username)
                 .Select(y => y.Gender).FirstOrDefaultAsync();
+        }
+
+        public async Task<AppUser> GetUserByPhotoId(int photoId)
+        {
+            return await _context.Users
+                .Include(p => p.Photos)
+                .IgnoreQueryFilters()
+                .Where(p => p.Photos.Any(p => p.Id == photoId))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
